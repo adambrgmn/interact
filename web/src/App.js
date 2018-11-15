@@ -1,26 +1,21 @@
 import React from 'react';
-import { ThemeProvider } from 'styled-components';
 import { Router } from '@reach/router';
-import * as theme from './theme';
+import Theme from './components/Theme';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import GlobalStyle from './components/GlobalStyle';
 import Landing from './pages/Landing';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <>
-        <GlobalStyle />
-        <Header />
+    <Theme>
+      <Header />
 
-        <Router>
-          <Landing path="/" />
-        </Router>
+      <Router>
+        <Landing path="/" />
+      </Router>
 
-        <Footer />
-      </>
-    </ThemeProvider>
+      <Footer />
+    </Theme>
   );
 }
 

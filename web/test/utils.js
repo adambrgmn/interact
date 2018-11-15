@@ -1,10 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { render } from 'react-testing-library';
-import { ThemeProvider } from 'styled-components';
-import * as theme from '../src/theme';
+import Theme from '../src/components/Theme';
 
-const customRender = (node, options) =>
-  render(<ThemeProvider theme={theme}>{node}</ThemeProvider>, options);
+const customRender = (node, options) => render(<Theme>{node}</Theme>, options);
 
 export { customRender as render };
