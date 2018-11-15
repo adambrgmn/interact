@@ -10,14 +10,22 @@
     "now-build": "react-scripts build && mv build dist"
   },
   "dependencies": {
+    "@reach/router": "^1.2.1",
+    "polished": "^2.3.0",
+    "prop-types": "^15.6.2",
     "react": "16.7.0-alpha.0",
     "react-dom": "16.7.0-alpha.0",
-    "react-scripts": "2.1.1"
+    "react-scripts": "2.1.1",
+    "styled-components": "^4.1.1"
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "jest-dom": "^2.1.1",
+    "react-testing-library": "^5.2.3"
+  }
 }
