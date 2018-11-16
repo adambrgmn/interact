@@ -4,7 +4,7 @@
   "alias": ["interact"],
   "builds": [
     {
-      "src": "site/package.json",
+      "src": "web/package.json",
       "use": "@now/static-build"
     }
   ],
