@@ -11,13 +11,12 @@ const Session = lazy(() => import('./pages/Session.js'));
 function App() {
   return (
     <Theme>
+      <Header />
       <ErrorBoundry
         renderError={({ error }) => (
           <div>An error occured: {error.message}</div>
         )}
       >
-        <Header />
-
         <Suspense fallback={<div>Loading...</div>}>
           <Router>
             <Landing path="/" />

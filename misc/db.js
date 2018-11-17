@@ -9,7 +9,7 @@ type Role = 'OWNER' | 'COLLABORATOR';
 type Session = {|
   id: string,
   date_created: number,
-  number: number,
+  external_id: string,
   name: string,
   active: boolean,
   allow_anonymous: boolean, // Allow question from anonymous users

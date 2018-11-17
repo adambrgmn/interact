@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 
 const states = {
@@ -18,10 +18,16 @@ class ErrorBoundry extends Component {
     error: null,
   };
 
+  static getDerivedStateFromError(error) {
+    return {
+      state: states.error,
+      error,
+    };
+  }
+
   componentDidCatch(error) {
     const { onError } = this.props;
     if (onError) onError(error);
-    this.setState(() => ({ state: states.error, error }));
   }
 
   reset = () => this.setState(() => ({ state: states.initial, error: null }));
@@ -30,13 +36,9 @@ class ErrorBoundry extends Component {
     const { children, renderError } = this.props;
     const { state, error } = this.state;
 
-    return (
-      <Suspense fallback={<div>Loading...</div>}>
-        {state === states.error
-          ? renderError({ reset: this.reset, error })
-          : children}
-      </Suspense>
-    );
+    return state === states.error
+      ? renderError({ reset: this.reset, error })
+      : children;
   }
 }
 
