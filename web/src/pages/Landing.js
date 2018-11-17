@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import { navigate } from '@reach/router';
+import styled, { css } from 'styled-components';
+import { lighten } from 'polished';
 import Input from '../components/Input';
 
 const Main = styled.main`
@@ -26,12 +28,26 @@ const CtaButton = styled.button`
   line-height: 2;
   text-transform: capitalize;
   color: ${p => p.theme.color.black};
+
+  ${p =>
+    p.disabled &&
+    css`
+      border-color: ${lighten(0.3, p.theme.color.black)};
+      color: ${lighten(0.3, p.theme.color.black)};
+      pointer-events: none;
+    `}
 `;
 
 function Landing() {
   const [sessionId, setSessionId] = useState('');
   const handleChange = e => setSessionId(e.target.value);
   const handleSubmit = e => e.preventDefault();
+
+  const disabled = sessionId.length < 1;
+  const handleClick = () => {
+    const url = `/session/${sessionId}`;
+    navigate(url);
+  };
 
   return (
     <Main>
@@ -51,7 +67,9 @@ function Landing() {
             />
           </div>
 
-          <CtaButton type="submit">Join session</CtaButton>
+          <CtaButton type="submit" disabled={disabled} onClick={handleClick}>
+            Join session
+          </CtaButton>
         </form>
       </div>
     </Main>

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Location } from '@reach/router';
+import { Location, Link } from '@reach/router';
 import styled, { css } from 'styled-components';
-import PropTypes from 'prop-types';
 import { ReactComponent as LogotypeComp } from '../logotype.svg';
 
 const Container = styled.header`
@@ -61,6 +60,16 @@ const Title = styled.h1`
   color: ${p => p.theme.color.white};
 `;
 
+const TitleLink = styled(Link)`
+  display: block;
+  color: currentColor;
+  text-decoration: none;
+
+  @supports (display: contents) {
+    display: contents;
+  }
+`;
+
 function Header() {
   return (
     <Location>
@@ -69,9 +78,13 @@ function Header() {
         return (
           <Container small={small}>
             <TitleContainer small={small}>
-              <Logotype small={small} />
+              <TitleLink to="/">
+                <Logotype small={small} />
+              </TitleLink>
 
-              <Title small={small}>Interact</Title>
+              <Title small={small}>
+                <TitleLink to="/">Interact</TitleLink>
+              </Title>
             </TitleContainer>
           </Container>
         );

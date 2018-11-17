@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import React, { Component, Suspense } from 'react';
 import PropTypes from 'prop-types';
 
 const states = {
@@ -6,7 +6,7 @@ const states = {
   initial: 'INITIAL',
 };
 
-class ErrorBoundry extends PureComponent {
+class ErrorBoundry extends Component {
   static propTypes = {
     onError: PropTypes.func,
     renderError: PropTypes.func.isRequired,
@@ -15,22 +15,28 @@ class ErrorBoundry extends PureComponent {
 
   state = {
     state: states.initial,
+    error: null,
   };
 
   componentDidCatch(error) {
     const { onError } = this.props;
     if (onError) onError(error);
-    this.setState(() => ({ state: states.error }));
+    this.setState(() => ({ state: states.error, error }));
   }
 
-  reset = () => this.setState(() => ({ state: states.initial }));
+  reset = () => this.setState(() => ({ state: states.initial, error: null }));
 
   render() {
     const { children, renderError } = this.props;
-    const { state } = this.state;
+    const { state, error } = this.state;
 
-    if (state === states.error) return renderError({ reset: this.reset });
-    return children;
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        {state === states.error
+          ? renderError({ reset: this.reset, error })
+          : children}
+      </Suspense>
+    );
   }
 }
 
