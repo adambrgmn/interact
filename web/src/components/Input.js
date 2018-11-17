@@ -6,7 +6,11 @@ const Label = styled.label`
   width: 100%;
 `;
 
-const LabelText = styled.span``;
+const LabelText = styled.span`
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+`;
 
 const InputContainer = styled.div`
   display: flex;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Location } from '@reach/router';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { ReactComponent as LogotypeComp } from '../logotype.svg';
@@ -7,6 +8,7 @@ const Container = styled.header`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
+  margin-bottom: 2rem;
   padding: 1rem;
   background-color: ${p => p.theme.color.black};
   transition: flex 0.3s ease-in-out;
@@ -32,7 +34,9 @@ const TitleContainer = styled.div`
     `}
 `;
 
-const Logotype = styled(LogotypeComp)`
+const Logotype = styled(({ className }) => (
+  <LogotypeComp className={className} />
+))`
   width: 8rem;
   height: auto;
   margin-bottom: 0.5rem;
@@ -57,20 +61,23 @@ const Title = styled.h1`
   color: ${p => p.theme.color.white};
 `;
 
-function Header({ small }) {
+function Header() {
   return (
-    <Container small={small}>
-      <TitleContainer small={small}>
-        <Logotype small={small} />
+    <Location>
+      {({ location }) => {
+        const small = location.pathname !== '/';
+        return (
+          <Container small={small}>
+            <TitleContainer small={small}>
+              <Logotype small={small} />
 
-        <Title small={small}>Interact</Title>
-      </TitleContainer>
-    </Container>
+              <Title small={small}>Interact</Title>
+            </TitleContainer>
+          </Container>
+        );
+      }}
+    </Location>
   );
 }
-
-Header.propTypes = {
-  small: PropTypes.bool,
-};
 
 export default Header;
