@@ -8,8 +8,8 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "web",
-    "api/*"
+    "db",
+    "web"
   ],
   "devDependencies": {
     "babel-eslint": "^10.0.1",

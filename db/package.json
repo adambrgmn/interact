@@ -1,0 +1,19 @@
+{
+  "name": "@interact/db",
+  "version": "0.0.0",
+  "description": "Useful operations on the database",
+  "main": "index.js",
+  "repository": "git@github.com:adambrgmn/interact.git",
+  "author": "Adam Bergman <adam@fransvilhelm.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "seed": "node ./seed.js"
+  },
+  "dependencies": {
+    "dotenv": "^6.1.0",
+    "firebase": "^5.5.8",
+    "isomorphic-fetch": "^2.2.1",
+    "listr": "^0.14.3"
+  }
+}
