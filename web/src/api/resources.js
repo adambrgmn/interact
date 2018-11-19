@@ -15,7 +15,7 @@ const SessionResource = createResource(
 );
 
 const QuestionsResource = createResource(
-  safeAsync(id => fb.getQuestionsBySessionId({ id })),
+  safeAsync(id => fb.getQuestionsBySessionId({ id }), []),
 );
 
 const ProfileResource = createResource(

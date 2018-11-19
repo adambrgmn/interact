@@ -6,7 +6,7 @@ import { auth, createProfile } from '../api/firebase';
 const UserContext = createContext();
 
 function UserProvider({ children }) {
-  const [state, setState] = useState({ currentUser: null, anonymous: false });
+  const [state, setState] = useState({ currentUser: {}, anonymous: false });
 
   const updatePartialState = updater =>
     setState(current => ({ ...current, ...updater(current) }));

@@ -27,7 +27,7 @@ const runTransaction = (ref, updater) =>
     const doc = await transaction.get(ref);
     if (!doc.exists) throw new Error('Reference does not exist');
 
-    const nextValue = await updater(doc.data());
+    const nextValue = await updater(doc);
     transaction.update(ref, nextValue);
   });
 
@@ -76,6 +76,23 @@ async function getProfileById({ id }) {
   }
 }
 
+async function createQuestion({ body, sessionId, userId }) {
+  try {
+    await collections.questions.add({
+      answered: false,
+      body,
+      dateCreated: firebase.firestore.FieldValue.serverTimestamp(),
+      inQueue: false,
+      removed: false,
+      session: sessionId,
+      user: userId,
+      votes: [],
+    });
+  } catch (err) {
+    throw new ApiError('Could not create question');
+  }
+}
+
 async function createProfile({ id, displayName }) {
   try {
     const ref = await collections.profiles.doc(id);
@@ -88,14 +105,16 @@ async function createProfile({ id, displayName }) {
       dateCreated: firebase.firestore.FieldValue.serverTimestamp(),
     });
   } catch (err) {
-    throw new ApiError(`Could not create a public user record`);
+    throw new ApiError(`Could not create a public profile`);
   }
 }
 
-async function incrementVote({ id }) {
+async function incrementVote({ id, userId }) {
   try {
-    const docRef = collections.questions.doc(id);
-    await runTransaction(docRef, ({ votes }) => ({ votes: votes + 1 }));
+    const ref = collections.questions.doc(id);
+    await runTransaction(ref, () => ({
+      votes: firebase.firestore.FieldValue.arrayUnion(userId),
+    }));
   } catch (err) {
     throw new ApiError(`Could not increment votes for question with id ${id}`);
   }
@@ -108,6 +127,7 @@ export {
   getSessionById,
   getQuestionsBySessionId,
   getProfileById,
+  createQuestion,
   createProfile,
   incrementVote,
 };

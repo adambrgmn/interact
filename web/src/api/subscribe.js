@@ -3,7 +3,7 @@ import { collections } from './firebase';
 const toQuestionsBySessionId = ({ id }, onUpdate, onError) => {
   const unsubscribe = collections.questions
     .where('session', '==', id)
-    .orderBy('date_created', 'desc')
+    .orderBy('dateCreated', 'desc')
     .onSnapshot(
       snap => {
         const data = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
