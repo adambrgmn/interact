@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { navigate } from '@reach/router';
-import Input from '../components/Input';
 
 function Landing() {
   const [sessionId, setSessionId] = useState('');
@@ -20,20 +19,23 @@ function Landing() {
 
         <form onSubmit={handleSubmit}>
           <div>
-            <Input
-              type="tel"
-              id="sessionId"
-              name="sessionId"
-              label="Enter session id"
-              prefix="#"
-              value={sessionId}
-              onChange={handleChange}
-            />
+            <label htmlFor="sessionId">
+              <span>Enter session id</span>
+              <input
+                type="tel"
+                id="sessionId"
+                name="sessionId"
+                value={sessionId}
+                onChange={handleChange}
+              />
+            </label>
           </div>
 
-          <button type="submit" disabled={disabled} onClick={handleClick}>
-            Join session
-          </button>
+          <div>
+            <button type="submit" disabled={disabled} onClick={handleClick}>
+              Join session
+            </button>
+          </div>
         </form>
       </div>
     </main>
