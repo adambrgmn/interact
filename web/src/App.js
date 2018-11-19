@@ -1,16 +1,14 @@
 import React, { Suspense, lazy } from 'react';
 import { Router } from '@reach/router';
-import Theme from './components/Theme';
 import ErrorBoundry from './components/ErrorBoundry';
 import Header from './components/Header';
-import Footer from './components/Footer';
 import Landing from './pages/Landing';
 
 const Session = lazy(() => import('./pages/Session.js'));
 
 function App() {
   return (
-    <Theme>
+    <>
       <Header />
       <ErrorBoundry
         renderError={({ error }) => (
@@ -23,10 +21,8 @@ function App() {
             <Session path="session/:id" />
           </Router>
         </Suspense>
-
-        <Footer />
       </ErrorBoundry>
-    </Theme>
+    </>
   );
 }
 
