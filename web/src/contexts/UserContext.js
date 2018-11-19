@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unused-state */
 import React, { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { auth, createUser } from '../api/firebase';
+import { auth, createProfile } from '../api/firebase';
 
 const UserContext = createContext();
 
@@ -15,7 +15,7 @@ function UserProvider({ children }) {
     () =>
       auth.onAuthStateChanged(async user => {
         if (user) {
-          await createUser({ id: user.uid, ...user });
+          await createProfile({ id: user.uid, ...user });
           updatePartialState(() => ({
             currentUser: user,
             anonymous: user.isAnonymous,

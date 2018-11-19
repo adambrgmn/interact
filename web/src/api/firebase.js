@@ -19,7 +19,7 @@ db.settings({ timestampsInSnapshots: true });
 const collections = {
   sessions: db.collection('sessions'),
   questions: db.collection('questions'),
-  users: db.collection('users'),
+  profiles: db.collection('profiles'),
 };
 
 const runTransaction = (ref, updater) =>
@@ -34,7 +34,7 @@ const runTransaction = (ref, updater) =>
 async function getSessionById({ id }) {
   try {
     const snapshot = await collections.sessions
-      .where('external_id', '==', id)
+      .where('externalId', '==', id)
       .get();
 
     if (snapshot.size < 1) throw new Error();
@@ -52,7 +52,7 @@ async function getQuestionsBySessionId({ id }) {
   try {
     const snapshot = await collections.questions
       .where('session', '==', id)
-      .orderBy('date_created', 'desc')
+      .orderBy('dateCreated', 'desc')
       .get();
 
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -63,29 +63,29 @@ async function getQuestionsBySessionId({ id }) {
   }
 }
 
-async function getUserById({ id }) {
+async function getProfileById({ id }) {
   try {
-    const snapshot = await collections.users.doc(id).get();
+    const snapshot = await collections.profiles.doc(id).get();
     if (!snapshot.exists) throw new Error();
 
     return snapshot.data();
   } catch (err) {
-    throw new ApiError(`User with id "${id}" could not be found`, {
+    throw new ApiError(`Profile with id "${id}" could not be found`, {
       status: Status.notFound,
     });
   }
 }
 
-async function createUser({ id, displayName }) {
+async function createProfile({ id, displayName }) {
   try {
-    const ref = await collections.users.doc(id);
+    const ref = await collections.profiles.doc(id);
     const user = await ref.get();
     if (user.exists) return;
 
     await ref.set({
       id,
       displayName: displayName || 'Anonymous',
-      date_created: firebase.firestore.FieldValue.serverTimestamp(),
+      dateCreated: firebase.firestore.FieldValue.serverTimestamp(),
     });
   } catch (err) {
     throw new ApiError(`Could not create a public user record`);
@@ -107,7 +107,7 @@ export {
   collections,
   getSessionById,
   getQuestionsBySessionId,
-  getUserById,
-  createUser,
+  getProfileById,
+  createProfile,
   incrementVote,
 };

@@ -18,6 +18,8 @@ const QuestionsResource = createResource(
   safeAsync(id => fb.getQuestionsBySessionId({ id })),
 );
 
-const UserResource = createResource(safeAsync(id => fb.getUserById({ id })));
+const ProfileResource = createResource(
+  safeAsync(id => fb.getProfileById({ id })),
+);
 
-export { SessionResource, QuestionsResource, UserResource };
+export { SessionResource, QuestionsResource, ProfileResource };

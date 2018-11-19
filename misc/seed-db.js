@@ -20,8 +20,8 @@ db.settings({ timestampsInSnapshots: true });
 const sessions = [
   {
     uid: 'ajsnbkjb2JBKj23KJB408BKBsdsAd',
-    date_created: firebase.firestore.FieldValue.serverTimestamp(),
-    external_id: '1',
+    dateCreated: firebase.firestore.FieldValue.serverTimestamp(),
+    externalId: '1',
     name: 'Foo',
     active: false,
     allow_anonymous: true,
@@ -34,43 +34,43 @@ const sessions = [
 const questions = [
   {
     uid: 'nljnslfjvLAJnljAljnas876aslk',
-    date_created: firebase.firestore.FieldValue.serverTimestamp(),
+    dateCreated: firebase.firestore.FieldValue.serverTimestamp(),
     user: 'asdIAS877YGhsTg56SHJHS65Ghas',
     body: 'WTF?!',
     votes: [],
     answered: false,
-    in_queue: false,
+    inQueue: false,
     removed: false,
     session: 'ajsnbkjb2JBKj23KJB408BKBsdsAd',
   },
   {
     uid: 'k12loknLKnsdasnko12eNJslkns9',
-    date_created: firebase.firestore.FieldValue.serverTimestamp(),
+    dateCreated: firebase.firestore.FieldValue.serverTimestamp(),
     user: 'ohrogh976JHKJHbbhbasre123khk',
     body: 'What is it exactly that you mean?',
     votes: [],
     answered: false,
-    in_queue: false,
+    inQueue: false,
     removed: false,
     session: 'ajsnbkjb2JBKj23KJB408BKBsdsAd',
   },
 ];
 
-const users = [
+const profiles = [
   {
     uid: 'ctratOvLVDahtHN6ihkSakv1Ler2',
-    date_created: firebase.firestore.FieldValue.serverTimestamp(),
-    name: 'Adam Bergman',
+    dateCreated: firebase.firestore.FieldValue.serverTimestamp(),
+    displayName: 'Adam Bergman',
   },
   {
     uid: 'asdIAS877YGhsTg56SHJHS65Ghas',
-    date_created: firebase.firestore.FieldValue.serverTimestamp(),
-    name: 'Jane Doe',
+    dateCreated: firebase.firestore.FieldValue.serverTimestamp(),
+    displayName: 'Jane Doe',
   },
   {
     uid: 'ohrogh976JHKJHbbhbasre123khk',
-    date_created: firebase.firestore.FieldValue.serverTimestamp(),
-    name: 'John Doods',
+    dateCreated: firebase.firestore.FieldValue.serverTimestamp(),
+    displayName: 'John Doods',
   },
 ];
 
@@ -86,7 +86,7 @@ const storeArray = async (collection, array) => {
     await Promise.all([
       storeArray('sessions', sessions),
       storeArray('questions', questions),
-      storeArray('users', users),
+      storeArray('profiles', profiles),
     ]);
     process.exit(0);
   } catch (err) {

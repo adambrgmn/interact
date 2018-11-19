@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import Loading from './Loading';
-import User from './User';
+import Profile from './Profile';
 import { QuestionsResource } from '../api/resources';
 import * as subscribe from '../api/subscribe';
 import { incrementVote } from '../api/firebase';
@@ -30,9 +30,9 @@ function QuestionList({ sessionId }) {
                   <footer>
                     <p>
                       User:{' '}
-                      <User userId={question.user}>
-                        {user => user.name || ''}
-                      </User>
+                      <Profile id={question.user}>
+                        {profile => profile.displayName || ''}
+                      </Profile>
                     </p>
                     <p>
                       Votes: {question.votes.length}{' '}

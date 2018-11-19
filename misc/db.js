@@ -15,7 +15,6 @@ type Session = {|
   allow_anonymous: boolean, // Allow question from anonymous users
   owner: User,
   collaborators: Array<User>,
-  questions: Array<Question>, // Pushed in on Question creation, therefore sorted by createion date
 |};
 
 // Questions is a subcollection of Sessions
@@ -34,8 +33,5 @@ type Question = {|
 type User = {|
   id: string,
   date_created: number,
-  name_first: string,
-  name_last: string,
-  sessions: Array<Session>,
-  questions: Array<Question>,
+  displayName: string,
 |};
