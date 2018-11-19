@@ -24,7 +24,7 @@ type Question = {|
   date_created: number,
   user: ?(User | string), // User if signed in, string if name provided, null otherwise (if allow_unsigned is true)
   body: string,
-  votes: number,
+  votes: Array<String>, // String of user ids
   answered: boolean, // Is answered
   in_queue: boolean, // In queue for being answered
   removed: boolean,

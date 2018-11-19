@@ -14,4 +14,10 @@ const SessionResource = createResource(
   safeAsync(id => fb.getSessionById({ id })),
 );
 
-export { SessionResource };
+const QuestionsResource = createResource(
+  safeAsync(id => fb.getQuestionsBySessionId({ id })),
+);
+
+const UserResource = createResource(safeAsync(id => fb.getUserById({ id })));
+
+export { SessionResource, QuestionsResource, UserResource };

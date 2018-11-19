@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { navigate } from '@reach/router';
 
-function Landing() {
+function LandingPage() {
   const [sessionId, setSessionId] = useState('');
   const handleChange = e => setSessionId(e.target.value);
   const handleSubmit = e => e.preventDefault();
@@ -42,4 +42,4 @@ function Landing() {
   );
 }
 
-export default Landing;
+export default LandingPage;
