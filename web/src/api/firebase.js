@@ -121,6 +121,7 @@ async function incrementVote({ id, userId }) {
 }
 
 export {
+  firebase,
   auth,
   db,
   collections,

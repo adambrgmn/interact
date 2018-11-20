@@ -5,6 +5,7 @@ import { UserProvider } from './contexts/UserContext';
 import Loading from './components/Loading';
 import Header from './components/Header';
 import LandingPage from './pages/LandingPage';
+import SignIn from './components/SignInDialog';
 
 const SessionPage = lazy(() => import('./pages/SessionPage.js'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage.js'));
@@ -12,6 +13,7 @@ const NotFoundPage = lazy(() => import('./pages/NotFoundPage.js'));
 function App() {
   return (
     <UserProvider>
+      <SignIn />
       <Header />
       <ErrorBoundry
         renderError={({ error }) => (
