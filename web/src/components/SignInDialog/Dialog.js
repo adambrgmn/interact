@@ -9,6 +9,7 @@ import '@reach/dialog/styles.css';
 function SignInDialog({ allowAnonymous, onDismiss }) {
   const initalFocusRef = useRef(null);
   const [currentTab, setCurrentTab] = useState('signUp');
+  const [error, setError] = useState(false);
   const user = useContext(UserContext);
 
   const handleSubmit = fn => async values => {
@@ -16,11 +17,15 @@ function SignInDialog({ allowAnonymous, onDismiss }) {
   };
 
   const signUp = async ({ name, email, password }) => {
-    const { user: newUser } = await user.createUserWithEmailAndPassword({
-      email,
-      password,
-    });
-    await newUser.updateProfile({ displayName: name });
+    try {
+      await user.createUserWithEmailAndPassword({
+        email,
+        password,
+        displayName: name,
+      });
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   const signIn = async ({ email, password }) => {
@@ -82,6 +87,8 @@ function SignInDialog({ allowAnonymous, onDismiss }) {
             )}
           </Tabs>
         </div>
+
+        {error && <div>{error}</div>}
       </DialogContent>
     </DialogOverlay>
   );

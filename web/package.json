@@ -20,7 +20,8 @@
     "react-cache": "^2.0.0-alpha.1",
     "react-dom": "16.7.0-alpha.0",
     "react-scripts": "2.1.1",
-    "styled-components": "^4.1.1"
+    "styled-components": "^4.1.1",
+    "zxcvbn": "^4.4.2"
   },
   "browserslist": [
     ">0.2%",

@@ -16,9 +16,19 @@ const signInWithEmailAndPassword = ({ email, password }) => {
   return auth.signInWithEmailAndPassword(email, password);
 };
 
-const createUserWithEmailAndPassword = ({ email, password }) => {
+const createUserWithEmailAndPassword = async ({
+  email,
+  password,
+  displayName,
+}) => {
   auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-  return auth.createUserWithEmailAndPassword(email, password);
+  const credentials = await auth.createUserWithEmailAndPassword(
+    email,
+    password,
+  );
+
+  await credentials.user.updateProfile({ displayName });
+  await createProfile({ id: credentials.user.uid, displayName });
 };
 
 const signOut = () => auth.signOut();
@@ -30,29 +40,30 @@ const useAuthStateChange = effect => {
 const emitter = mitt();
 
 const STATUS = {
+  initialCheck: 'INITIAL_CHECK',
   signedOut: 'SIGNED_OUT',
   signedIn: 'SIGNED_IN',
   anonymous: 'ANONYMOUS',
 };
 
+const initialState = {
+  status: STATUS.initialCheck,
+  currentUser: {},
+  emitter,
+  signInAnonymously,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+};
+
 function UserProvider({ children }) {
-  const [state, setState] = useState({
-    status: STATUS.signedOut,
-    currentUser: {},
-    emitter,
-    signInAnonymously,
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    signOut,
-  });
+  const [state, setState] = useState(initialState);
 
   const updatePartialState = updater =>
     setState(current => ({ ...current, ...updater(current) }));
 
   useAuthStateChange(async user => {
     if (user) {
-      await createProfile({ id: user.uid, ...user });
-
       updatePartialState(() => ({
         currentUser: user,
         status: user.isAnonymous ? STATUS.anonymous : STATUS.signedIn,
@@ -65,7 +76,7 @@ function UserProvider({ children }) {
         status: STATUS.signedOut,
       }));
 
-      state.emitter.emit('signed-out', user);
+      state.emitter.emit('signed-out');
     }
   });
 

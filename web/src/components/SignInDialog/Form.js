@@ -1,5 +1,6 @@
 import React, { useState, forwardRef } from 'react';
 import PropTypes from 'prop-types';
+import PasswordIndicator from './PasswordIndicator';
 
 const useForm = (initial = {}) => {
   const [values, setState] = useState(initial);
@@ -26,17 +27,23 @@ const Form = forwardRef(({ onSubmit, fields, title }, forwardedRef) => {
         {fields.map((field, i) => {
           const ref = i === 0 ? forwardedRef : null;
           return (
-            <label key={field} htmlFor={field}>
-              <span>{field}</span>
-              <input
-                ref={ref}
-                type={field === 'name' ? 'text' : field}
-                id={field}
-                name={field}
-                value={values[field]}
-                onChange={onChange}
-              />
-            </label>
+            <div key={field}>
+              <label htmlFor={field}>
+                <span>{field}</span>
+                <input
+                  ref={ref}
+                  type={field === 'name' ? 'text' : field}
+                  id={field}
+                  name={field}
+                  value={values[field]}
+                  onChange={onChange}
+                  required
+                />
+              </label>
+              {field === 'password' && title.toLowerCase() === 'sign up' && (
+                <PasswordIndicator {...values} />
+              )}
+            </div>
           );
         })}
       </div>

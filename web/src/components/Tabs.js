@@ -30,7 +30,7 @@ function Tabs({ currentTab, children, initialFocusRef }) {
     () => {
       if (initialFocusRef && initialFocusRef.current) {
         initialFocusRef.current.focus();
-      } else if (initialFocusRef) {
+      } else if (initialFocusRef && initialFocusRef.focus) {
         initialFocusRef.focus();
       }
     },
