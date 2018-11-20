@@ -6,14 +6,20 @@ import AskQuestion from '../components/AskQuestion';
 
 function SessionPage({ id }) {
   const session = SessionResource.read(id);
+
   return (
     <main>
-      <div>
-        <h2>{session.name}</h2>
-      </div>
+      {session && (
+        <>
+          <div>
+            <h2>{session.name}</h2>
+          </div>
 
-      <AskQuestion sessionId={session.id} />
-      <QuestionList sessionId={session.id} />
+          <AskQuestion sessionId={session.id} />
+          <QuestionList sessionId={session.id} />
+        </>
+      )}
+      {!session && <p>Session not found</p>}
     </main>
   );
 }
