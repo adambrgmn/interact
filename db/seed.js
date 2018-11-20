@@ -19,6 +19,7 @@ const serverNow = () => firebase.firestore.FieldValue.serverTimestamp();
         'sessions',
         (item, ctx) => ({
           ...item,
+          externalId: `${item.externalId}`,
           dateCreated: serverNow(),
           owner: ctx.profiles[random(0, ctx.profiles.length - 1)],
         }),
@@ -30,6 +31,7 @@ const serverNow = () => firebase.firestore.FieldValue.serverTimestamp();
           dateCreated: serverNow(),
           user: ctx.profiles[random(0, ctx.profiles.length - 1)],
           session: ctx.sessions[random(0, ctx.sessions.length - 1)],
+          votes: [],
         }),
         false,
       ],
