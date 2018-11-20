@@ -1,8 +1,14 @@
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ProfileResource } from '../api/resources';
+import * as subscribe from '../api/subscribe';
 
 function Profile({ id, children }) {
-  const profile = ProfileResource.read(id);
+  const initialProfile = ProfileResource.read(id);
+
+  const [profile, setProfile] = useState(() => initialProfile);
+  useEffect(() => subscribe.toProfileUpdates({ id }, setProfile), [id]);
+
   return children(profile);
 }
 
