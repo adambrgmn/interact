@@ -109,6 +109,16 @@ async function createProfile({ id, displayName }) {
   }
 }
 
+async function updateProfile({ id, displayName }) {
+  try {
+    const ref = await collections.profiles.doc(id);
+
+    await ref.set({ displayName });
+  } catch (err) {
+    throw new ApiError(`Could not update profile`);
+  }
+}
+
 async function incrementVote({ id, userId }) {
   try {
     const ref = collections.questions.doc(id);
@@ -130,5 +140,6 @@ export {
   getProfileById,
   createQuestion,
   createProfile,
+  updateProfile,
   incrementVote,
 };

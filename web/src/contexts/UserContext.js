@@ -2,9 +2,20 @@
 import React, { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import mitt from 'mitt';
-import { firebase, auth, createProfile } from '../api/firebase';
+import {
+  firebase,
+  auth,
+  updateProfile as firebaseUpdateProfile,
+} from '../api/firebase';
 
 const UserContext = createContext();
+const emitter = mitt();
+
+const updateProfile = async ({ id, displayName }) => {
+  await auth.currentUser.updateProfile({ displayName });
+  await firebaseUpdateProfile({ id, displayName });
+  emitter.emit('profile-updated');
+};
 
 const signInAnonymously = () => {
   auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
@@ -27,8 +38,7 @@ const createUserWithEmailAndPassword = async ({
     password,
   );
 
-  await credentials.user.updateProfile({ displayName });
-  await createProfile({ id: credentials.user.uid, displayName });
+  await updateProfile({ id: credentials.user.uid, displayName });
 };
 
 const signOut = () => auth.signOut();
@@ -37,7 +47,16 @@ const useAuthStateChange = effect => {
   useEffect(() => auth.onAuthStateChanged(effect), []);
 };
 
-const emitter = mitt();
+const useEmitter = (event, listener) => {
+  useEffect(
+    () => {
+      const storedListener = payload => listener(payload);
+      emitter.on(event, storedListener);
+      return () => emitter.off(event, storedListener);
+    },
+    [event],
+  );
+};
 
 const STATUS = {
   initialCheck: 'INITIAL_CHECK',
@@ -61,6 +80,14 @@ function UserProvider({ children }) {
 
   const updatePartialState = updater =>
     setState(current => ({ ...current, ...updater(current) }));
+
+  useEmitter('profile-updated', () => {
+    const user = auth.currentUser;
+    updatePartialState(() => ({
+      currentUser: user,
+      status: user.isAnonymous ? STATUS.anonymous : STATUS.signedIn,
+    }));
+  });
 
   useAuthStateChange(async user => {
     if (user) {
